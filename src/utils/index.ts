@@ -1,0 +1,1 @@
+export { getAllExpressAppRoutes } from "./getAllExpressAppRoutes";

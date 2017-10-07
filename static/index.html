@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
+	<script src="../node_modules/promise-polyfill/promise.js"></script>
+	<script src="../node_modules/whatwg-fetch/fetch.js"></script>
+
+	<style>
+		.console {
+			overflow: hidden;
+		}
+		.console .left,
+		.console .right {
+			width: 50%;
+		}
+		.console .left {
+			float: left;
+		}
+		.console .right {
+			float: right;
+		}
+
+	</style>
+</head>
+<body>
+	<h1>Hello yobba!</h1>
+
+	<div class="console">
+		<div class="left">
+
+			<pre id="http-response"></pre>
+
+		</div>
+		<div class="right">
+
+			<pre id="websocket-response"></pre>
+
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		var httpResponseEl = document.getElementById('http-response');
+		var wsResponseEl = document.getElementById('websocket-response');
+
+		var socket = io.connect(window.location.origin);
+		socket.on('news', function (data) {
+			socket.emit('my other event', { my: 'data' });
+			console.log('[WebSockets]',data);
+			wsResponseEl
+				.appendChild((function(){
+					var el = document.createElement('div');
+					el.innerHTML = JSON.stringify(data,null,2);
+					return el;
+				})())
+		});
+
+		fetch('/rest')
+			.then(function(response) {
+				return response.json()
+			})
+			.then(function(data) {
+				console.log('[HTTP]',data);
+				httpResponseEl
+					.appendChild((function(){
+						var el = document.createElement('div');
+						el.innerHTML = JSON.stringify(data,null,2);
+						return el;
+					})())
+			})
+
+	</script>
+</body>
+</html>
