@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.1",
-    "mongoose": "^4.12.0",
+    "mongoose": "^5.7.5",
     "promise-polyfill": "6.0.2",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
